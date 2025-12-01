@@ -1,27 +1,15 @@
+@tool
+@icon("res://assets/dialogue_item_icon.svg")
 class_name DialogueItem extends SlideShowEntry
 
-@export var choices: Array[DialogueChoice] = []
+@export_group("Choices")
+## An array of choices. Each choice will become a button in the interface
+@export var choices: Array[DialogueChoice] = []: set = set_choices
 
-var dialogue_items: Array[Dictionary] = [
-	{
-	# ...
-	"choices": [
-	  # First choice
-	  {
-		"text": "Let me sleep a little longer",
-		"target_line_idx": 2
-	  },
-	  # Second choice
-	  {
-		"text": "Let's do it!",
-		"target_line_idx": 1
-	  },
-	  # Third choice
-	  {
-		"text": "Go away!",
-		"is_quit": true
-	  },
-	]
-	},
-	# ...
-]
+## Setter for the [param choices] property. Ensures the choices array never has
+## an empty element.
+func set_choices(new_choices: Array[DialogueChoice]) -> void:
+	for index in new_choices.size():
+		if new_choices[index] == null:
+			new_choices[index] = DialogueChoice.new()
+	choices = new_choices
